@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {   //other 의 태그를 확인하고 Active를 false로 
         if(other.gameObject.CompareTag("Pickup"))
         {
         other.gameObject.SetActive(false);   
