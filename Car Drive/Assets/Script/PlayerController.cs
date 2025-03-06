@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public float speed = 10f;
-    public float turnSpeed = 50f;
+    public float turnSpeed = 60f;
 
     private Vector2 moveInput;
 
