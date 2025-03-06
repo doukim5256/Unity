@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
-
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
+    private int count;
     private Rigidbody rb;
-
     private float movementX;
     private float movementY;
 
@@ -17,6 +19,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        count = 0; // collect count
+
+        SetCountText();
+        winTextObject.SetActive(false);
     }
 
     private void OnMove(InputValue movementValue)
@@ -25,6 +31,14 @@ public class PlayerController : MonoBehaviour
 
         movementX = movementVector.x;
         movementY = movementVector.y;
+    }
+
+    void SetCountText(){
+        countText.text = "Count: " + count.ToString();
+        if(count >= 12)
+        {
+            winTextObject.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
@@ -38,7 +52,9 @@ public class PlayerController : MonoBehaviour
     {   //other 의 태그를 확인하고 Active를 false로 
         if(other.gameObject.CompareTag("Pickup"))
         {
-        other.gameObject.SetActive(false);   
+            other.gameObject.SetActive(false);   
+            count = count + 1; // 물체에 접촉했을 
+            SetCountText();
         }
     }
 
