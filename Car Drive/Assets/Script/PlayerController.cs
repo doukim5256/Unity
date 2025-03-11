@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class PlayerController : MonoBehaviour
     public float turnSpeed = 60f;
     public float speedThreshold = 2f; // 일정 속도 이상일 때만 회전 가능 
     
+    private int count; // 수집 카운트 
+    public TextMeshProUGUI countText;
+    public GameObject EndText;
+
 
     private Vector2 moveInput;
     private float currentSpeed = 0f; // 현재 속도 저장 
@@ -18,6 +23,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();  
+        count = 0;
+        SetCountText();
+        EndText.SetActive(false);
 
     }
 
@@ -25,6 +33,15 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = movementValue.Get<Vector2>();
 
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+        if(count == 3)
+        {
+            EndText.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -56,5 +73,17 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(Vector3.up * turn);
         }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {   
+        if(other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+
+            SetCountText();
+        }
+    
     }
 }
