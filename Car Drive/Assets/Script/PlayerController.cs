@@ -1,19 +1,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
     public float maxSpeed = 10f; // 최대 속도
     public float acceleration = 5f; // 자연스러운 움직임
     public float deceleration = 5f; // 자연스러운 움직임 
     public float turnSpeed = 60f;
     public float speedThreshold = 2f; // 일정 속도 이상일 때만 회전 가능 
-    
-    private int count; // 수집 카운트 
     public TextMeshProUGUI countText;
     public GameObject EndText;
+    public GameObject StartPanel; // 시작화면
+    public GameObject EndPanel; // 종료화면 
+
+    
+    private Rigidbody rb;
+    private int count; // 수집 카운트 
+    private GameManager gameManager;
 
 
     private Vector2 moveInput;
@@ -26,6 +31,8 @@ public class PlayerController : MonoBehaviour
         count = 0;
         SetCountText();
         EndText.SetActive(false);
+
+        gameManager = FindFirstObjectByType<GameManager>();
 
     }
 
@@ -41,6 +48,7 @@ public class PlayerController : MonoBehaviour
         if(count == 3)
         {
             EndText.SetActive(true);
+            
         }
     }
 
@@ -83,7 +91,11 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
 
             SetCountText();
+            gameManager.CollectObject();
+            Destroy(other.gameObject);
         }
     
     }
+
+    
 }
