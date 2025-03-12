@@ -18,11 +18,13 @@ public class GameManager : MonoBehaviour
 
         // 특정 태그를 가진 오브젝트 개수 찾기
         totalObjects = GameObject.FindGameObjectsWithTag("PickUp").Length;
+        
         Debug.Log("총 오브젝트 개수: " + totalObjects);
     }
 
     public void StartGame()
     {
+        Debug.Log("게임 시작. ");
         startPanel.SetActive(false);
         TITLE.SetActive(false);
         Time.timeScale = 1;
@@ -40,7 +42,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void EndGame()
-    {
+    {   
+        Debug.Log("게임 종료. ");
         endPanel.SetActive(true);
         Time.timeScale = 0;
     }
